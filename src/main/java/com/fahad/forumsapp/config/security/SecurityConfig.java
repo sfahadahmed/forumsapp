@@ -34,6 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .httpBasic()
             .authenticationEntryPoint(authenticationEntryPoint);
 
+        http.csrf().disable();
+
         http.addFilterAfter(new CustomFilter(),
             BasicAuthenticationFilter.class);
     }
