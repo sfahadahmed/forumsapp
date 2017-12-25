@@ -1,6 +1,7 @@
 package com.fahad.forumsapp.models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -18,24 +19,28 @@ public class Topic {
     private String title;
     private String description;
     private Date creationDate;
-    private String createdBy;
+    private boolean pinned;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private User createdBy;
 
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;
 
     @OneToMany(mappedBy = "topic", targetEntity=Post.class, fetch = FetchType.EAGER)
-    private Collection<Post> posts;
+    private Collection<Post> posts = new ArrayList<>();
 
     public Topic() {
     }
 
-    public Topic(String title, String description, Date creationDate, String createdBy) {
+    public Topic(String title, String description, Date creationDate, boolean pinned, User createdBy, Category category) {
         this.title = title;
         this.description = description;
         this.creationDate = creationDate;
+        this.pinned = pinned;
         this.createdBy = createdBy;
-        this.posts = posts;
+        this.category = category;
     }
 
     public long getId() {
@@ -70,12 +75,28 @@ public class Topic {
         this.creationDate = creationDate;
     }
 
-    public String getCreatedBy() {
+    public User getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(User createdBy) {
         this.createdBy = createdBy;
+    }
+
+    public boolean isPinned() {
+        return pinned;
+    }
+
+    public void setPinned(boolean pinned) {
+        this.pinned = pinned;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public Collection<Post> getPosts() {
@@ -89,11 +110,12 @@ public class Topic {
     @Override
     public String toString() {
         return "Topic{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", creationDate=" + creationDate +
+                "pinned=" + pinned +
                 ", createdBy='" + createdBy + '\'' +
+                ", creationDate=" + creationDate +
+                ", description='" + description + '\'' +
+                ", title='" + title + '\'' +
+                ", id=" + id +
                 '}';
     }
 }

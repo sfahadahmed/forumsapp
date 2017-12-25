@@ -1,6 +1,7 @@
 package com.fahad.forumsapp.models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -18,15 +19,17 @@ public class Category {
     private String title;
     private String description;
     private Date creationDate;
-    private String createdBy;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private User createdBy;
 
     @OneToMany(mappedBy = "category", targetEntity=Topic.class, fetch = FetchType.EAGER)
-    private Collection<Topic> topics;
+    private Collection<Topic> topics = new ArrayList<>();
 
     public Category() {
     }
 
-    public Category(String title, String description, Date creationDate, String createdBy) {
+    public Category(String title, String description, Date creationDate, User createdBy) {
         this.title = title;
         this.description = description;
         this.creationDate = creationDate;
@@ -65,11 +68,11 @@ public class Category {
         this.creationDate = creationDate;
     }
 
-    public String getCreatedBy() {
+    public User getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(User createdBy) {
         this.createdBy = createdBy;
     }
 
