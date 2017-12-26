@@ -51,7 +51,7 @@ public class CategoryController {
         }
     }
 
-    @PostMapping("/create/save")
+    @PostMapping("/create")
     public String saveCreateForm(@ModelAttribute Category category, BindingResult errors, Model model) {
 
         // TODO: use logged-in user instead
@@ -69,7 +69,7 @@ public class CategoryController {
         return "categories/list";
     }
 
-    @PostMapping("/edit/save")
+    @PostMapping("/edit")
     public String saveEditForm(@ModelAttribute Category category, BindingResult errors, Model model) {
 
         Category existingCategory = categoryRepository.findOne(category.getId());

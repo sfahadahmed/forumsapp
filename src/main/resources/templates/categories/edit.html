@@ -17,7 +17,7 @@
     </div>
 
     <div class="well center-block" style="width: 50%;">
-        <form class="form-horizontal" action="#" th:action="@{/categories/edit/save}" th:object="${category}" method="post">
+        <form class="form-horizontal" action="#" th:action="@{/categories/edit}" th:object="${category}" method="post">
 
             <input type="hidden" id="inputId" th:field="*{id}" />
             <!--<input type="hidden" id="inputId" th:field="*{creationDate}" />
