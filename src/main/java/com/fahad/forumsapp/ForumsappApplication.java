@@ -1,9 +1,6 @@
 package com.fahad.forumsapp;
 
-import com.fahad.forumsapp.models.Category;
-import com.fahad.forumsapp.models.Role;
-import com.fahad.forumsapp.models.Topic;
-import com.fahad.forumsapp.models.User;
+import com.fahad.forumsapp.models.*;
 import com.fahad.forumsapp.repos.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -55,6 +52,20 @@ public class ForumsappApplication {
             topicRepository.save(topic1);
             topicRepository.save(topic2);
             topicRepository.save(topic3);
+
+            //
+            // Posts
+            //
+            Post post1 = new Post("Hi! this is my first post.", date, userGuest);
+            post1.setTopic(topic1);
+            Post post2 = new Post("Hi! this is another post.", date, userAdmin);
+            post2.setTopic(topic1);
+            Post post3 = new Post("Hi! this is my first post.", date, userGuest);
+            post3.setTopic(topic2);
+
+            postRepository.save(post1);
+            postRepository.save(post2);
+            postRepository.save(post3);
 
             //
             // Category: Feedback
