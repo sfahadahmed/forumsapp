@@ -17,13 +17,15 @@ public class User {
     private String lastName;
     private String email;
     private String password;
-    private String role;
     private Date creationDate;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Role role;
 
     public User() {
     }
 
-    public User(String firstName, String lastName, String email, String password, String role, Date creationDate) {
+    public User(String firstName, String lastName, String email, String password, Role role, Date creationDate) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -72,11 +74,11 @@ public class User {
         this.password = password;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
