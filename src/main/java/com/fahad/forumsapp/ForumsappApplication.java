@@ -1,12 +1,10 @@
 package com.fahad.forumsapp;
 
 import com.fahad.forumsapp.models.Category;
+import com.fahad.forumsapp.models.Role;
 import com.fahad.forumsapp.models.Topic;
 import com.fahad.forumsapp.models.User;
-import com.fahad.forumsapp.repos.CategoryRepository;
-import com.fahad.forumsapp.repos.PostRepository;
-import com.fahad.forumsapp.repos.TopicRepository;
-import com.fahad.forumsapp.repos.UserRepository;
+import com.fahad.forumsapp.repos.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -24,15 +22,23 @@ public class ForumsappApplication {
     @Bean
     public CommandLineRunner demo(CategoryRepository categoryRepository,
         TopicRepository topicRepository, PostRepository postRepository,
-        UserRepository userRepository){
+        UserRepository userRepository, RoleRepository roleRepository){
         return (args) -> {
             Date date = new Date();
 
             //
+            // Roles
+            //
+            Role roleAdmin = new Role("Administrator", "ROLE_ADMIN");
+            Role roleUser = new Role("User", "ROLE_USER");
+            roleRepository.save(roleAdmin);
+            roleRepository.save(roleUser);
+
+            //
             // Users
             //
-            User userAdmin = new User("Sys", "Admin", "admin@nosite.com", "abcd1234", "ROLE_ADMIN", date);
-            User userGuest = new User("Guest", "User", "guest@nosite.com", "abcd1234", "ROLE_USER", date);
+            User userAdmin = new User("Sys", "Admin", "admin@nosite.com", "abcd1234", roleAdmin, date);
+            User userGuest = new User("Guest", "User", "guest@nosite.com", "abcd1234", roleUser, date);
             userRepository.save(userAdmin);
             userRepository.save(userGuest);
 
