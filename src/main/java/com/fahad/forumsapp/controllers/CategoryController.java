@@ -26,24 +26,32 @@ public class CategoryController {
     @Autowired
     private UserRepository userRepository;
 
+    @ModelAttribute("Category")
+    public Category populateCategory(){
+        Category category = new Category();
+        category.setTitle("Enter Title");
+        category.setDescription("Enter Description");
+        return category;
+    }
+
     @GetMapping("")
-    public String showList(Map<String, Object> model) {
-        model.put("categories", categoryRepository.findAll());
+    public String showList(Model model) {
+        model.addAttribute("categories", categoryRepository.findAll());
         return "categories/list";
     }
 
     @GetMapping("/create")
-    public String showCreateForm(Map<String, Object> model) {
-        model.put("category", new Category());
+    public String showCreateForm(@ModelAttribute Category category, Model model) {
+        model.addAttribute("category", category);
         return "categories/create";
     }
 
     @GetMapping("/edit")
-    public String showEditForm(@RequestParam long id, Map<String, Object> model) {
+    public String showEditForm(@RequestParam long id, Model model) {
         Category category = categoryRepository.findOne(id);
 
         if(category != null) {
-            model.put("category", category);
+            model.addAttribute("category", category);
             return "categories/edit";
         }
         else {
@@ -54,35 +62,45 @@ public class CategoryController {
     @PostMapping("/create")
     public String saveCreateForm(@ModelAttribute Category category, BindingResult errors, Model model) {
 
-        // TODO: use logged-in user instead
-        User user = userRepository.findOne(1L);
-        category.setCreatedBy(user);
+        if(errors.hasErrors()){
+            return "/create";
+        }
+        else {
+            // TODO: use logged-in user instead
+            User user = userRepository.findOne(1L);
+            category.setCreatedBy(user);
 
-        Date date = new Date();
-        category.setCreationDate(date);
+            Date date = new Date();
+            category.setCreationDate(date);
 
-        categoryRepository.save(category);
+            categoryRepository.save(category);
 
-        model.addAttribute("category", category);
-        model.addAttribute("categories", categoryRepository.findAll());
+            model.addAttribute("category", category);
+            model.addAttribute("categories", categoryRepository.findAll());
 
-        return "categories/list";
+            return "categories/list";
+        }
     }
 
     @PostMapping("/edit")
     public String saveEditForm(@ModelAttribute Category category, BindingResult errors, Model model) {
 
-        Category existingCategory = categoryRepository.findOne(category.getId());
+        if(errors.hasErrors()){
+            return "/edit";
+        }
+        else {
+            Category existingCategory = categoryRepository.findOne(category.getId());
 
-        existingCategory.setTitle(category.getTitle());
-        existingCategory.setDescription(category.getDescription());
+            existingCategory.setTitle(category.getTitle());
+            existingCategory.setDescription(category.getDescription());
 
-        categoryRepository.save(existingCategory);
+            categoryRepository.save(existingCategory);
 
-        model.addAttribute("category", existingCategory);
-        model.addAttribute("categories", categoryRepository.findAll());
+            model.addAttribute("category", existingCategory);
+            model.addAttribute("categories", categoryRepository.findAll());
 
-        return "categories/list";
+            return "categories/list";
+        }
     }
 
     @GetMapping("/delete")
