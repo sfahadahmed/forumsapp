@@ -10,8 +10,8 @@
     <div class="page-header" id="banner">
         <div class="row center-block">
             <div class="col-lg-8">
-                <h1>Edit Category</h1>
-                <p class="lead">This is a demo Forums app.</p>
+                <h1 th:text="#{forums.pages.categories.edit.title}"></h1>
+                <p class="lead" th:text="#{forums.pages.categories.edit.message}"></p>
             </div>
         </div>
     </div>
@@ -20,11 +20,9 @@
         <form class="form-horizontal" action="#" th:action="@{/categories/edit}" th:object="${category}" method="post">
 
             <input type="hidden" id="inputId" th:field="*{id}" />
-            <!--<input type="hidden" id="inputId" th:field="*{creationDate}" />
-            <input type="hidden" id="inputId" th:field="*{createdBy}" />-->
 
             <fieldset>
-                <legend>Create New Category</legend>
+                <legend th:text="#{forums.pages.categories.edit.title}"></legend>
                 <div class="form-group">
                     <label for="inputTitle" class="col-lg-2 control-label">Title</label>
                     <div class="col-lg-10">
@@ -39,7 +37,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
-                        <!--<button class="btn btn-default">Cancel</button>-->
+                        <button class="btn btn-default">Cancel</button>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </div>
