@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"></head>
+<body>
+
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="container">
+    <div class="panel panel-primary panel-collapse">
+        <div class="panel-heading" th:text="${topic.title}"></div>
+        <div class="panel-body">
+            <span th:text="${topic.description}"></span>
+            <br/>
+            <br/>
+            <div class="panel-group" th:each="post: ${topic.posts}">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title pull-left">
+                            <span th:text="${post.createdBy.lastName}" />,
+                            <span th:text="${post.createdBy.firstName}" />
+                        </div>
+                        <div class="panel-title pull-right">
+                            <span th:text="${post.creationDate}" />
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="panel-body" th:text="${post.text}"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer text-right">
+            <a th:href="@{/posts/create}" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-plus"></span> New Post</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
