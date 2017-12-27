@@ -11,13 +11,15 @@
             <div class="panel-heading" th:text="${category.title}"></div>
             <div class="panel-body">
                 <div th:text="${category.description}"></div>
-
-                <div th:each="topic: ${category.topics}">
-                    <div>
-                        <span th:if="${topic.pinned} == true" class="glyphicon glyphicon-pushpin" />
-                        <span th:text="${topic.title}" />
-                    </div>
-                </div>
+                <br/>
+                <ul class="list-group">
+                    <li class="list-group-item" th:each="topic: ${category.topics}">
+                        <!--<a th:href="@{/forums/topics/view(id=${topic.id})}" th:text="${topic.title}"></a>-->
+                        <a th:href="@{/showtopic(id=${topic.id})}" th:text="${topic.title}"></a>
+                        <span th:if="${topic.pinned} == true" class="glyphicon glyphicon-pushpin" title="Pinned Topic" />
+                        <span class="badge"><span th:text="${#lists.size(topic.posts)} + ' posts'" /></span>
+                    </li>
+                </ul>
             </div>
 
             <div class="panel-footer text-right">
