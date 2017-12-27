@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"></head>
+<body>
+
+    <div th:replace="fragments/navbar :: navbar"></div>
+
+    <div class="container">
+
+        <div class="page-header" id="banner">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h1 th:text="#{forums.pages.topics.list.title}"></h1>
+                    <p class="lead" th:text="#{forums.pages.topics.list.message}"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+
+            <div class="">
+                <a th:href="@{/topics/create}" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-plus"></span> New</a>
+            </div>
+
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>Pinned</th>
+                    <th>Creation Date</th>
+                    <th>Created By</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody th:each="topic: ${topics}">
+                    <tr>
+                        <td th:text="${topic.id}"></td>
+                        <td th:text="${topic.title}"></td>
+                        <td th:text="${topic.description}"></td>
+                        <td th:text="${topic.category.title}"></td>
+                        <td th:text="${topic.pinned}"></td>
+                        <td th:text="${topic.creationDate}"></td>
+                        <td><span th:text="${topic.createdBy.lastName}"></span>, <span th:text="${topic.createdBy.firstName}"></span></td>
+                        <td><a th:href="@{/topics/edit(id=${topic.id})}" class="btn btn-success" role="button"><span class="glyphicon glyphicon-edit"></span> Edit</a></td>
+                        <td><a th:href="@{/topics/delete(id=${topic.id})}" class="btn btn-danger" role="button"><span class="glyphicon glyphicon-remove"></span> Delete</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

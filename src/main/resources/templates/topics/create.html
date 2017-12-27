@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"></head>
+<body>
+
+    <div th:replace="fragments/navbar :: navbar"></div>
+
+    <div class="container">
+
+        <div class="page-header" id="banner">
+            <div class="row center-block">
+                <div class="col-lg-8">
+                    <h1 th:text="#{forums.pages.topics.create.title}"></h1>
+                    <p class="lead" th:text="#{forums.pages.topics.create.message}"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="well center-block" style="width: 50%;">
+            <form class="form-horizontal" action="#" th:action="@{/topics/create}" th:object="${topic}" method="post">
+
+                <fieldset>
+                    <legend th:text="#{forums.pages.topics.create.title}"></legend>
+
+                    <div class="form-group">
+                        <label for="inputCategory" class="col-lg-2 control-label">Category</label>
+                        <div class="col-lg-10">
+                            <!--<input type="text" class="form-control" id="inputTitle" placeholder="Title" th:field="*{title}" />-->
+                            <select class="form-control" id="inputCategory" placeholder="Category" th:field="*{category}">
+                                <option th:each="catergory : ${categories}"
+                                        th:value="${catergory.id}"
+                                        th:text="${catergory.title}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputTitle" class="col-lg-2 control-label">Title</label>
+                        <div class="col-lg-10">
+                            <input type="text" class="form-control" id="inputTitle" placeholder="Title" th:field="*{title}" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputDescription" class="col-lg-2 control-label">Description</label>
+                        <div class="col-lg-10">
+                            <input type="text" class="form-control" id="inputDescription" placeholder="Description" th:field="*{description}" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPinned" class="col-lg-2 control-label">Pinned</label>
+                        <div class="col-lg-10">
+                            <input type="checkbox" id="inputPinned" placeholder="Pinned" th:field="*{pinned}" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-10 col-lg-offset-2">
+                            <button class="btn btn-default">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+
+        <div lang="en" th:replace="fragments/footer :: footer"></div>
+    </div>
+
+</body>
+</html>
