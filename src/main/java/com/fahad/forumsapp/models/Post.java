@@ -15,7 +15,9 @@ public class Post {
     private long id;
     private String text;
     private Date creationDate;
-    private String createdBy;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private User createdBy;
 
     @ManyToOne
     @JoinColumn(name = "topic_id", referencedColumnName = "id")
@@ -24,7 +26,7 @@ public class Post {
     public Post() {
     }
 
-    public Post(String text, Date creationDate, String createdBy) {
+    public Post(String text, Date creationDate, User createdBy) {
         this.text = text;
         this.creationDate = creationDate;
         this.createdBy = createdBy;
@@ -54,11 +56,11 @@ public class Post {
         this.creationDate = creationDate;
     }
 
-    public String getCreatedBy() {
+    public User getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(User createdBy) {
         this.createdBy = createdBy;
     }
 
