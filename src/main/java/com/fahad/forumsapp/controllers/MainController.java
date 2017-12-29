@@ -62,9 +62,12 @@ public class MainController {
     }
 
     @GetMapping("/showtopic")
-    public String showTopic(@RequestParam long id, @ModelAttribute Post post, Model model){
+    public String showTopic(@RequestParam long id, @ModelAttribute Post post, BindingResult errors, Model model){
         Topic topic = topicRepository.findOne(id);
 
+        if(errors.hasErrors()){
+            return "forums/main";
+        }
         if(topic != null) {
             post.setTopic(topic);
 
@@ -77,8 +80,8 @@ public class MainController {
         }
     }
 
-    @PostMapping("/submitpost")
-    public String submitPost(@ModelAttribute Post post, BindingResult errors, Model model){
+    @PostMapping("/showtopic")
+    public String saveShowTopic(@ModelAttribute Post post, BindingResult errors, Model model){
 
         // @RequestParam long topicId,
         if(errors.hasErrors()){
@@ -107,6 +110,39 @@ public class MainController {
             } else {
                 return "forums/main";
             }
+        }
+    }
+
+    @GetMapping("/createtopic")
+    public String createTopic(@RequestParam long categoryId, @ModelAttribute Topic topic, BindingResult errors, Model model){
+        Category category = categoryRepository.findOne(categoryId);
+
+        if(errors.hasErrors() || category == null){
+            return "forums/main";
+        }
+        else {
+            topic.setCategory(category);
+
+            model.addAttribute("category", category);
+            model.addAttribute("categories", categoryRepository.findAll());
+            model.addAttribute("topic", topic);
+
+            return "forums/createtopic";
+        }
+    }
+
+    @PostMapping("/createtopic")
+    public String saveCreateTopic(@ModelAttribute Topic topic, BindingResult errors, Model model){
+
+        if(errors.hasErrors()){
+            model.addAttribute("categories", categoryRepository.findAll());
+            return "forums/main";
+        }
+        else {
+            topicRepository.save(topic);
+            model.addAttribute("topic", topic);
+            model.addAttribute("categories", categoryRepository.findAll());
+            return "forums/main";
         }
     }
 }
