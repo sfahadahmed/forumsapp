@@ -7,10 +7,13 @@
 
 <div class="container">
     <div class="panel panel-primary panel-collapse">
-        <div class="panel-heading" th:text="${topic.title}"></div>
+        <div class="panel-heading">
+            <span th:text="${topic.category.title}"></span>
+            &nbsp;&gt;&nbsp;
+            <span th:text="${topic.title}"></span>
+        </div>
         <div class="panel-body">
             <span th:text="${topic.description}"></span>
-
             <br/>
             <br/>
 
@@ -30,7 +33,7 @@
                 </div>
             </div>
 
-            <form class="form-horizontal" action="#" th:action="@{/submitpost}" th:object="${post}" method="post">
+            <form class="form-horizontal" action="#" th:action="@{/showtopic}" th:object="${post}" method="post">
                 <input type="hidden" id="inputTopicId" value="${topic.id}" th:field="*{topic.id}" />
 
                 <div class="panel panel-info">
