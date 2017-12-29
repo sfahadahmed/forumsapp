@@ -1,6 +1,9 @@
 package com.fahad.forumsapp.controllers;
 
+import com.fahad.forumsapp.models.Category;
+import com.fahad.forumsapp.models.Post;
 import com.fahad.forumsapp.models.Topic;
+import com.fahad.forumsapp.models.User;
 import com.fahad.forumsapp.repos.CategoryRepository;
 import com.fahad.forumsapp.repos.PostRepository;
 import com.fahad.forumsapp.repos.TopicRepository;
@@ -8,9 +11,10 @@ import com.fahad.forumsapp.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
 
 /**
  * @author Fahad Ahmed
@@ -31,6 +35,26 @@ public class MainController {
     @Autowired
     private UserRepository userRepository;
 
+    @ModelAttribute("Post")
+    public Post populatePost(){
+        Post post = new Post();
+        post.setTopic(populateTopic());
+        return post;
+    }
+
+    @ModelAttribute("Topic")
+    public Topic populateTopic(){
+        Topic topic = new Topic();
+        topic.setCategory(populateCategory());
+        return topic;
+    }
+
+    @ModelAttribute("Category")
+    public Category populateCategory(){
+        Category category = new Category();
+        return category;
+    }
+
     @GetMapping("")
     public String home(Model model){
         model.addAttribute("categories", categoryRepository.findAll());
@@ -38,15 +62,51 @@ public class MainController {
     }
 
     @GetMapping("/showtopic")
-    public String viewTopic(@RequestParam long id, Model model){
+    public String showTopic(@RequestParam long id, @ModelAttribute Post post, Model model){
         Topic topic = topicRepository.findOne(id);
 
         if(topic != null) {
+            post.setTopic(topic);
+
             model.addAttribute("topic", topic);
+            model.addAttribute("post", post);
             return "forums/showtopic";
         }
         else {
             return "forums/main";
+        }
+    }
+
+    @PostMapping("/submitpost")
+    public String submitPost(@ModelAttribute Post post, BindingResult errors, Model model){
+
+        // @RequestParam long topicId,
+        if(errors.hasErrors()){
+            return "forums/showtopic";
+        }
+        else {
+            Topic topic = topicRepository.findOne(post.getTopic().getId());
+
+            if (topic != null) {
+                // TODO: use logged-in user instead
+                User user = userRepository.findOne(1L);
+                post.setCreatedBy(user);
+
+                Date date = new Date();
+                post.setCreationDate(date);
+
+                topic.getPosts().add(post);
+
+                post.setTopic(topic);
+                post = postRepository.save(post);
+
+                model.addAttribute("topic", topic);
+                model.addAttribute("post", post);
+
+                return "forums/showtopic";
+            } else {
+                return "forums/main";
+            }
         }
     }
 }
