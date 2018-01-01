@@ -33,7 +33,7 @@
                 </div>
             </div>
 
-            <form class="form-horizontal" action="#" th:action="@{/showtopic}" th:object="${post}" method="post">
+            <form class="form-horizontal" action="#" th:action="@{/forums/showtopic}" th:object="${post}" method="post">
                 <input type="hidden" id="inputTopicId" value="${topic.id}" th:field="*{topic.id}" />
 
                 <div class="panel panel-info">

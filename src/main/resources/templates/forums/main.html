@@ -15,7 +15,7 @@
                 <ul class="list-group">
                     <li class="list-group-item" th:each="topic: ${category.topics}">
                         <!--<a th:href="@{/forums/topics/view(id=${topic.id})}" th:text="${topic.title}"></a>-->
-                        <a th:href="@{/showtopic(id=${topic.id})}" th:text="${topic.title}"></a>
+                        <a th:href="@{/forums/showtopic(id=${topic.id})}" th:text="${topic.title}"></a>
                         <span th:if="${topic.pinned} == true" class="glyphicon glyphicon-pushpin" title="Pinned Topic" />
                         <span class="badge"><span th:text="${#lists.size(topic.posts)} + ' posts'" /></span>
                     </li>
@@ -23,7 +23,7 @@
             </div>
 
             <div class="panel-footer text-right">
-                <a th:href="@{/createtopic(categoryId=${category.id})}" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-plus"></span> New Topic</a>
+                <a th:href="@{/forums/createtopic(categoryId=${category.id})}" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-plus"></span> New Topic</a>
             </div>
         </div>
     </div>
