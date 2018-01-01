@@ -26,16 +26,16 @@ public class ForumsappApplication {
             //
             // Roles
             //
-            Role roleAdmin = new Role("Administrator", "ROLE_ADMIN");
-            Role roleUser = new Role("User", "ROLE_USER");
+            Role roleAdmin = new Role("Administrator", "ADMIN");
+            Role roleUser = new Role("User", "USER");
             roleRepository.save(roleAdmin);
             roleRepository.save(roleUser);
 
             //
             // Users
             //
-            User userAdmin = new User("Sys", "Admin", "admin@nosite.com", "abcd1234", roleAdmin, date);
-            User userGuest = new User("Guest", "User", "guest@nosite.com", "abcd1234", roleUser, date);
+            User userAdmin = new User("Sys", "Admin", "admin@nosite.com", "password1234", roleAdmin, date);
+            User userGuest = new User("Guest", "User", "guest@nosite.com", "password1234", roleUser, date);
             userRepository.save(userAdmin);
             userRepository.save(userGuest);
 
