@@ -134,6 +134,7 @@ public class ForumsController {
 
     @GetMapping("/createtopic")
     public String createTopic(@RequestParam long categoryId, @ModelAttribute Topic topic, BindingResult errors, Model model){
+
         Category category = categoryRepository.findOne(categoryId);
 
         if(errors.hasErrors() || category == null){
@@ -158,6 +159,13 @@ public class ForumsController {
             return "forums/main";
         }
         else {
+            // TODO: use logged-in user instead
+            User user = userRepository.findOne(1L);
+            topic.setCreatedBy(user);
+
+            Date date = new Date();
+            topic.setCreationDate(date);
+
             topicRepository.save(topic);
             model.addAttribute("topic", topic);
             model.addAttribute("categories", categoryRepository.findAll());
