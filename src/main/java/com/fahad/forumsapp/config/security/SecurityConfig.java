@@ -1,12 +1,13 @@
 package com.fahad.forumsapp.config.security;
 
+import com.fahad.forumsapp.security.MyAccessDeniedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 /**
  * @author Fahad Ahmed
@@ -16,7 +17,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private MyBasicAuthenticationEntryPoint authenticationEntryPoint;
+    private MyAccessDeniedHandler accessDeniedHandler;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -28,16 +29,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-            .antMatchers("/securityNone").permitAll()
+        http.csrf().disable()
+            .authorizeRequests()
+            .antMatchers("/", "/home").permitAll()
+            .antMatchers("/dashboard/**", "/categories/**", "/topics/**", "/posts/**", "/users/**").hasAnyRole("ADMIN")
             .anyRequest().authenticated()
             .and()
-            .httpBasic()
-            .authenticationEntryPoint(authenticationEntryPoint);
+            .formLogin().loginPage("/login").permitAll()
+            .and()
+            .logout().permitAll()
+            .and()
+            .exceptionHandling()
+            .accessDeniedHandler(accessDeniedHandler);
 
-        http.csrf().disable();
+        super.configure(http);
+    }
 
-        http.addFilterAfter(new CustomFilter(),
-            BasicAuthenticationFilter.class);
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/webjars/**");
+        web.ignoring().antMatchers("/css/**", "/fonts/**", "/libs/**");
     }
 }
