@@ -8,7 +8,6 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
-import sun.plugin.liveconnect.SecurityContextHelper;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
