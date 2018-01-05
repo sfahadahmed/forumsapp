@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"></head>
+<body>
+
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="container">
+    <div class="panel panel-primary panel-collapse" th:each="topic: ${topics}">
+        <div class="panel-heading">
+            <div class="panel-title pull-left">
+                <a th:href="@{/forums/showtopic(id=${topic.id})}">
+                    <span th:text="${topic.category.title}"></span>&nbsp;&gt;&nbsp;
+                    <span th:text="${topic.title}"></span>
+                </a>
+            </div>
+            <div class="panel-title pull-right">
+                <span th:text="${topic.creationDate}" />
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="panel-body">
+            <div th:text="${topic.description}"></div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
