@@ -16,6 +16,7 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
+    private String username;
     private String password;
     private Date creationDate;
 
@@ -25,10 +26,11 @@ public class User {
     public User() {
     }
 
-    public User(String firstName, String lastName, String email, String password, Role role, Date creationDate) {
+    public User(String firstName, String lastName, String email, String username, String password, Role role, Date creationDate) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.username = username;
         this.password = password;
         this.role = role;
         this.creationDate = creationDate;
@@ -66,6 +68,10 @@ public class User {
         this.email = email;
     }
 
+    public String getUsername() { return username; }
+
+    public void setUsername(String username) { this.username = username; }
+
     public String getPassword() {
         return password;
     }
@@ -97,9 +103,9 @@ public class User {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", role='" + role + '\'' +
+                ", username='" + username + '\'' +
                 ", creationDate=" + creationDate +
+                ", role=" + role +
                 '}';
     }
 }
