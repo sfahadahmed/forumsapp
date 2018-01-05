@@ -9,6 +9,8 @@ import com.fahad.forumsapp.repos.PostRepository;
 import com.fahad.forumsapp.repos.TopicRepository;
 import com.fahad.forumsapp.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +24,8 @@ import java.util.Date;
 @Controller
 @RequestMapping("/forums")
 public class ForumsController {
+
+
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -108,10 +112,13 @@ public class ForumsController {
         }
         else {
             Topic topic = topicRepository.findOne(post.getTopic().getId());
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-            if (topic != null) {
+            if (topic != null && authentication != null) {
                 // TODO: use logged-in user instead
-                User user = userRepository.findOne(1L);
+                //User user = userRepository.findOne(1L);
+                String username = authentication.getName().toLowerCase();
+                User user = userRepository.findByUsername(username);
                 post.setCreatedBy(user);
 
                 Date date = new Date();
@@ -159,17 +166,26 @@ public class ForumsController {
             return "forums/main";
         }
         else {
-            // TODO: use logged-in user instead
-            User user = userRepository.findOne(1L);
-            topic.setCreatedBy(user);
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-            Date date = new Date();
-            topic.setCreationDate(date);
+            if(topic != null && authentication != null) {
+                // TODO: use logged-in user instead
+                //User user = userRepository.findOne(1L);
+                String username = authentication.getName().toLowerCase();
+                User user = userRepository.findByUsername(username);
+                topic.setCreatedBy(user);
 
-            topicRepository.save(topic);
-            model.addAttribute("topic", topic);
-            model.addAttribute("categories", categoryRepository.findAll());
-            return "forums/main";
+                Date date = new Date();
+                topic.setCreationDate(date);
+
+                topicRepository.save(topic);
+                model.addAttribute("topic", topic);
+                model.addAttribute("categories", categoryRepository.findAll());
+                return "forums/main";
+            }
+            else{
+                return "forms/main";
+            }
         }
     }
 }
