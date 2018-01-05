@@ -58,9 +58,9 @@
 
                     <!-- Search box -->
                     <span th:if="${#authorization.expression('isAuthenticated()')}">
-                        <form class="navbar-form navbar-right" action="#">
+                        <form class="navbar-form navbar-right" action="/search" method="post">
                             <div class="input-group">
-                                <input type="text" class="form-control col-lg-8" placeholder="Search" />
+                                <input type="text" name="text" class="form-control col-lg-8" placeholder="Search Topics" />
                                 <div class="input-group-btn">
                                     <button class="btn btn-default" type="submit">
                                         <span class="glyphicon glyphicon-search"></span>
