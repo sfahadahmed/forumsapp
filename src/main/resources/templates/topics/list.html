@@ -43,7 +43,7 @@
                         <td th:text="${topic.description}"></td>
                         <td th:text="${topic.category.title}"></td>
                         <td th:text="${topic.pinned}"></td>
-                        <td th:text="${topic.creationDate}"></td>
+                        <td th:text="${#dates.format(topic.creationDate, 'yyyy-MM-dd HH:mm')}"></td>
                         <td><span th:text="${topic.createdBy.lastName}"></span>, <span th:text="${topic.createdBy.firstName}"></span></td>
                         <td><a th:href="@{/topics/edit(id=${topic.id})}" class="btn btn-success" role="button"><span class="glyphicon glyphicon-edit"></span> Edit</a></td>
                         <td><a th:href="@{/topics/delete(id=${topic.id})}" class="btn btn-danger" role="button"><span class="glyphicon glyphicon-remove"></span> Delete</a></td>

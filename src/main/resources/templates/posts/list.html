@@ -41,7 +41,7 @@
                 <td th:text="${post.text}"></td>
                 <td th:text="${post.topic.title}"></td>
                 <td th:text="${post.topic.category.title}"></td>
-                <td th:text="${post.creationDate}"></td>
+                <td th:text="${#dates.format(post.creationDate, 'yyyy-MM-dd HH:mm')}"></td>
                 <td><span th:text="${post.createdBy.lastName}"></span>, <span th:text="${post.createdBy.firstName}"></span></td>
                 <td><a th:href="@{/posts/edit(id=${post.id})}" class="btn btn-success" role="button"><span class="glyphicon glyphicon-edit"></span> Edit</a></td>
                 <td><a th:href="@{/posts/delete(id=${post.id})}" class="btn btn-danger" role="button"><span class="glyphicon glyphicon-remove"></span> Delete</a></td>

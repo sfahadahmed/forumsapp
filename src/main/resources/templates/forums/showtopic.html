@@ -25,7 +25,7 @@
                             <span th:text="${post.createdBy.firstName}" />
                         </div>
                         <div class="panel-title pull-right">
-                            <span th:text="${post.creationDate}" />
+                            <span th:text="${#dates.format(post.creationDate, 'yyyy-MM-dd HH:mm')}" />
                         </div>
                         <div class="clearfix"></div>
                     </div>

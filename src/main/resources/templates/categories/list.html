@@ -39,7 +39,7 @@
                         <td th:text="${category.id}"></td>
                         <td th:text="${category.title}"></td>
                         <td th:text="${category.description}"></td>
-                        <td th:text="${category.creationDate}"></td>
+                        <td th:text="${#dates.format(category.creationDate, 'yyyy-MM-dd HH:mm')}"></td>
                         <td><span th:text="${category.createdBy.lastName}"></span>, <span th:text="${category.createdBy.firstName}"></span></td>
                         <td><a th:href="@{/categories/edit(id=${category.id})}" class="btn btn-success" role="button"><span class="glyphicon glyphicon-edit"></span> Edit</a></td>
                         <td><a th:href="@{/categories/delete(id=${category.id})}" class="btn btn-danger" role="button"><span class="glyphicon glyphicon-remove"></span> Delete</a></td>
