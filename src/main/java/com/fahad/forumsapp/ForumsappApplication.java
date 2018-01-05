@@ -34,10 +34,12 @@ public class ForumsappApplication {
             //
             // Users
             //
-            User userAdmin = new User("Sys", "Admin", "admin@nosite.com", "password1234", roleAdmin, date);
-            User userGuest = new User("Guest", "User", "guest@nosite.com", "password1234", roleUser, date);
+            User userAdmin = new User("System", "Admin", "admin@nosite.com", "admin", "password", roleAdmin, date);
+            User userGuest = new User("Guest", "User", "guest@nosite.com", "guest", "password", roleUser, date);
+            User anotherUser = new User("Fahad", "Ahmed", "sfahadahmed@gmail.com", "fahad", "password", roleUser, date);
             userRepository.save(userAdmin);
             userRepository.save(userGuest);
+            userRepository.save(anotherUser);
 
             //
             // Category: General
