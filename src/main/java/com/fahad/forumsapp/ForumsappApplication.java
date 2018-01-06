@@ -2,15 +2,20 @@ package com.fahad.forumsapp;
 
 import com.fahad.forumsapp.models.*;
 import com.fahad.forumsapp.repos.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Date;
 
 @SpringBootApplication
 public class ForumsappApplication {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ForumsappApplication.class, args);
@@ -34,9 +39,10 @@ public class ForumsappApplication {
             //
             // Users
             //
-            User userAdmin = new User("System", "Admin", "admin@nosite.com", "admin", "password", roleAdmin, date);
-            User userGuest = new User("Guest", "User", "guest@nosite.com", "guest", "password", roleUser, date);
-            User anotherUser = new User("Fahad", "Ahmed", "sfahadahmed@gmail.com", "fahad", "password", roleUser, date);
+            String password = passwordEncoder.encode("password");
+            User userAdmin = new User("System", "Admin", "admin@nosite.com", "admin", password, roleAdmin, date);
+            User userGuest = new User("Guest", "User", "guest@nosite.com", "guest", password, roleUser, date);
+            User anotherUser = new User("Fahad", "Ahmed", "sfahadahmed@gmail.com", "fahad", password, roleUser, date);
             userRepository.save(userAdmin);
             userRepository.save(userGuest);
             userRepository.save(anotherUser);

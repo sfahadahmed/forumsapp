@@ -4,6 +4,7 @@ import com.fahad.forumsapp.models.User;
 import com.fahad.forumsapp.repos.RoleRepository;
 import com.fahad.forumsapp.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +24,9 @@ public class UserController {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @ModelAttribute("User")
     public User populateUser(){
@@ -70,6 +74,7 @@ public class UserController {
             Date date = new Date();
             user.setCreationDate(new Date());
 
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
 
             model.addAttribute("user", user);
@@ -96,7 +101,7 @@ public class UserController {
                 existingUser.setRole(user.getRole());
 
             if(user.getPassword() != null && user.getPassword() != "")
-                existingUser.setPassword(user.getPassword());
+                existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
 
             userRepository.save(existingUser);
 
